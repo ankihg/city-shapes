@@ -22,6 +22,7 @@ function addButtonDiv() {
         buttonDiv = document.createElement('div');
         buttonDiv.id = 'buttonDiv';
     }
+    buttonDiv.style.backgroundColor = '#00ff0090';
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
 };
 
@@ -31,13 +32,16 @@ function addPlayDiv() {
     if (playDiv == null) {
         playDiv = document.createElement('div');
         playDiv.id = 'playDiv';
-        if (Quiz.isPlay == false) {
-            playDiv.innerHTML = "&nbsp; p l a y &nbsp;";
-        } else {
-            playDiv.innerHTML = "&nbsp; e x p l o r e &nbsp;";
-        }
-        playDiv.onmousedown = function() { switchPlayExplore(); };
     }
+
+    if (Quiz.isPlay == false) {
+        playDiv.innerHTML = "&nbsp; p l a y &nbsp;";
+    } else {
+        playDiv.innerHTML = "&nbsp; e x p l o r e &nbsp;";
+    }
+    playDiv.onmousedown = switchPlayExplore;
+    playDiv.style.cursor = "pointer";
+
     map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(playDiv);
 };
 
@@ -241,12 +245,13 @@ City.addButtons = function() {
 };
 
 City.prototype.addButton = function() {
-    this.button = document.createElement('div');
+    this.button = document.createElement('a');
     this.button.id = this.name.concat("_button");
     this.button.innerHTML = this.name;
 
-    this.button.style.color = "yellow";
+    this.button.style.color = "white";
     this.button.style.fontSize = "210%";
+    this.button.style.cursor = "pointer";
 
     this.button.style.margin = "1%";
     this.button.style.display = "inline-block";
