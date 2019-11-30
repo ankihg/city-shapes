@@ -1,23 +1,14 @@
+google.maps.event.addDomListener(window, 'load', init);
+
 var map;
 var buttonDiv;
 var markers = [];
 
 function init() {
-    /*var mapProp = {
-    center:new google.maps.LatLng(47.6147628,-122.4759888),
-    zoom:11,
-    disableDefaultUI:true,
-    mapTypeId:google.maps.MapTypeId.SATELLITE
-};
-map=new google.maps.Map(document.getElementById("googleMap"),mapProp);*/
-
     City.initCitys();
     Quiz.quiz();
-    // TODO hide scoreDiv when in explore mode
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(scoreDiv);
-
 }
-google.maps.event.addDomListener(window, 'load', init);
 
 function addButtonDiv() {
     buttonDiv = document.getElementById('buttonDiv');
