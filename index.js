@@ -1,16 +1,23 @@
 var map;
-var buttonDiv;
-var markers = [];
 google.maps.event.addDomListener(window, 'load', init);
+
+var markers = [];
+var dom = {
+    buttonDiv: null,
+    scoreDiv: null,
+    playDiv: null,
+};
 
 function init() {
     City.initCitys();
+    initDomRefs();
     map = initMap(City.citys[0]);
-    // City.citys[0].setCity(); // will init map
     City.addButtons();
     addPlayDiv();
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(scoreDiv);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
+
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(dom.buttonDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(dom.playDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(dom.scoreDiv);
 }
 
 function initMap(city) {
@@ -23,14 +30,14 @@ function initMap(city) {
     return new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
-function addButtonDiv() {
-    buttonDiv = document.getElementById('buttonDiv');
-    if (buttonDiv == null) {
-        buttonDiv = document.createElement('div');
-        buttonDiv.id = 'buttonDiv';
-    } else {
-        buttonDiv.innerHTML = "";
-    }
+function initDomRefs() {
+    dom.buttonDiv = document.getElementById('buttonDiv');
+    dom.scoreDiv = document.getElementById('scoreDiv');
+    dom.playDiv = document.getElementById('playDiv');
+}
+
+function clearButtonDiv() {
+    dom.buttonDiv.innerHTML = "";
 };
 
 
@@ -47,8 +54,6 @@ function addPlayDiv() {
         playDiv.innerHTML = "EXPLORE";
     }
     playDiv.onmousedown = togglePlayExplore;
-
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(playDiv);
 };
 
 function togglePlayExplore() {
@@ -242,7 +247,7 @@ City.initCitys = function() {
 
 City.addButtons = function(citys) {
     citys = citys || City.citys;
-    addButtonDiv();
+    clearButtonDiv();
     citys.forEach((c) => { c.addButton() });
 };
 
@@ -255,9 +260,7 @@ City.prototype.addButton = function() {
     var city = this;
     this.button.onclick = function() { Quiz.reply(city); };
 
-
-    buttonDiv.appendChild(this.button);
-    //map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(this.button);
+    dom.buttonDiv.appendChild(this.button);
 };
 
 City.prototype.setCity = function() {
