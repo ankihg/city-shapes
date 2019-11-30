@@ -284,21 +284,7 @@ City.prototype.setCity = function() {
 };
 
 City.prototype.go = function() {
-    if (map==null) {
-        var mapProp = {
-            center:new google.maps.LatLng(this.lat, this.lng),
-            zoom:this.zoom,
-            disableDefaultUI:true,
-            mapTypeId:google.maps.MapTypeId.SATELLITE
-        };
-        map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        City.addButtons();
-        addPlayDiv();
-    } else {
-        map.setCenter(new google.maps.LatLng(this.lat, this.lng));
-        map.setZoom(this.zoom);
-    }
-
+    this.setCity();
     this.displayClues();
     map.setCenter(new google.maps.LatLng(this.lat, this.lng));
 };
