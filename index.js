@@ -2,7 +2,7 @@ var map;
 var buttonDiv;
 var markers = [];
 
-function initialize() {
+function init() {
     /*var mapProp = {
     center:new google.maps.LatLng(47.6147628,-122.4759888),
     zoom:11,
@@ -11,15 +11,10 @@ function initialize() {
 };
 map=new google.maps.Map(document.getElementById("googleMap"),mapProp);*/
 
-setUp();
-Quiz.quiz();
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-
-function setUp() {
-    //addButtonDiv();
     City.initCitys();
-};
+    Quiz.quiz();
+}
+google.maps.event.addDomListener(window, 'load', init);
 
 function addButtonDiv() {
     buttonDiv = document.getElementById('buttonDiv');
