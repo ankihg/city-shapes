@@ -82,7 +82,7 @@ Quiz.attempts;
 
 Quiz.start = function() {
     Quiz.citys = _.sample(City.citys, 10);
-    Quiz.citysToQuiz = Quiz.citys.map(c => c); // copy
+    Quiz.citysToQuiz = Quiz.citys.slice(0); // clone
 
     Quiz.nCorrect = 0;
     Quiz.nQuestions = 0;
