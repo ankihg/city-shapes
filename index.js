@@ -13,6 +13,9 @@ map=new google.maps.Map(document.getElementById("googleMap"),mapProp);*/
 
     City.initCitys();
     Quiz.quiz();
+    // TODO hide scoreDiv when in explore mode
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(scoreDiv);
+
 }
 google.maps.event.addDomListener(window, 'load', init);
 
@@ -35,14 +38,13 @@ function addPlayDiv() {
     }
 
     if (Quiz.isPlay == false) {
-        playDiv.innerHTML = "&nbsp; p l a y &nbsp;";
+        playDiv.innerHTML = "&nbsp; P L A Y &nbsp;";
     } else {
-        playDiv.innerHTML = "&nbsp; e x p l o r e &nbsp;";
+        playDiv.innerHTML = "&nbsp; E X P L O R E &nbsp;";
     }
     playDiv.onmousedown = switchPlayExplore;
-    playDiv.style.cursor = "pointer";
 
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(playDiv);
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(playDiv);
 };
 
 function switchPlayExplore() {
@@ -52,19 +54,13 @@ function switchPlayExplore() {
         playDiv.innerHTML = "&nbsp; e x p l o r e &nbsp;";
     } else {
         Quiz.isPlay = false;
-        playDiv.innerHTML = "&nbsp; p l a y &nbsp;";
+        playDiv.innerHTML = "&nbsp; P L A Y &nbsp;";
     };
 };
 
 function addScoreDiv() {
     scoreDiv = document.getElementById('scoreDiv');
-    if (scoreDiv == null) {
-        scoreDiv = document.createElement('div');
-        scoreDiv.id = 'scoreDiv';
-        scoreDiv.innerHTML = '0 / 0';
-    }
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(scoreDiv);
-
+    scoreDiv.innerHTML = '0 / 0';
 };
 
 function updateScoreDiv() {
