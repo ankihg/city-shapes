@@ -29,9 +29,9 @@ function addPlayDiv() {
     }
 
     if (Quiz.isPlay == false) {
-        playDiv.innerHTML = "&nbsp; P L A Y &nbsp;";
+        playDiv.innerHTML = "- P L A Y -";
     } else {
-        playDiv.innerHTML = "&nbsp; E X P L O R E &nbsp;";
+        playDiv.innerHTML = "EXPLORE";
     }
     playDiv.onmousedown = togglePlayExplore;
 
@@ -42,10 +42,10 @@ function togglePlayExplore() {
     Quiz.isPlay = !Quiz.isPlay;
     if (Quiz.isPlay == true) {
         Quiz.startQuiz();
-        playDiv.innerHTML = "&nbsp; E X P L O R E &nbsp;";
+        playDiv.innerHTML = "EXPLORE";
         showScoreDiv();
     } else {
-        playDiv.innerHTML = "&nbsp; P L A Y &nbsp;";
+        playDiv.innerHTML = "- P L A Y -";
         hideScoreDiv();
     };
 };
