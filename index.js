@@ -6,8 +6,10 @@ var markers = [];
 
 function init() {
     City.initCitys();
+    Quiz.start();
     Quiz.quiz();
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(scoreDiv);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
 }
 
 function addButtonDiv() {
@@ -15,9 +17,9 @@ function addButtonDiv() {
     if (buttonDiv == null) {
         buttonDiv = document.createElement('div');
         buttonDiv.id = 'buttonDiv';
+    } else {
+        buttonDiv.innerHTML = "";
     }
-    buttonDiv.style.overflowY = 'scroll';
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
 };
 
 
@@ -41,10 +43,12 @@ function addPlayDiv() {
 function togglePlayExplore() {
     Quiz.isPlay = !Quiz.isPlay;
     if (Quiz.isPlay == true) {
-        Quiz.startQuiz();
+        Quiz.start();
+        City.addButtons(Quiz.citys);
         playDiv.innerHTML = "EXPLORE";
         showScoreDiv();
     } else {
+        City.addButtons();
         playDiv.innerHTML = "- P L A Y -";
         hideScoreDiv();
     };
@@ -69,14 +73,17 @@ function updateScoreDiv() {
 var Quiz = function() {}
 
 Quiz.city = "plz";
+Quiz.citys = [];
 Quiz.citysToQuiz = [];
 Quiz.isPlay = false;
 Quiz.nCorrect;
 Quiz.nQuestions;
 Quiz.attempts;
 
-Quiz.startQuiz = function() {
-    Quiz.citysToQuiz = City.citys;
+Quiz.start = function() {
+    Quiz.citys = _.sample(City.citys, 10);
+    Quiz.citysToQuiz = Quiz.citys.map(c => c); // copy
+
     Quiz.nCorrect = 0;
     Quiz.nQuestions = 0;
     Quiz.quiz();
@@ -90,14 +97,20 @@ Quiz.quiz = function() {
     }
     markers = [];
 
-    //reset attempts
+    // reset attempts
     Quiz.attempts = 0;
 
-    var r = Math.floor(Math.random()*City.citys.length);
-    Quiz.city = City.citys[r];
-    Quiz.city.setCity();
+    if (Quiz.citysToQuiz.length) {
+        var r = Math.floor(Math.random() * Quiz.citysToQuiz.length);
+        Quiz.city = Quiz.citysToQuiz[r];
+        console.log(Quiz.citysToQuiz, r, Quiz.city);
+        Quiz.city.setCity();
+        Quiz.citysToQuiz.splice(r, 1);
+    } else {
+        alert('You win!');
+        togglePlayExplore();
+    }
 
-    Quiz.citysToQuiz.splice(r, 1);
 };
 
 Quiz.reply = function(city) {
@@ -216,17 +229,10 @@ City.initCitys = function() {
 
 };
 
-City.addButtons = function() {
+City.addButtons = function(citys) {
+    citys = citys || City.citys;
     addButtonDiv();
-    for (var i=0; i < City.citys.length; i++) {
-        City.citys[i].addButton();
-        // var nbsp = document.createElement('span');
-        // nbsp.innerHTML = "&nbsp;";
-        // buttonDiv.appendChild(nbsp);
-        // if (i%3 == 2) {
-        //     buttonDiv.appendChild(document.createElement('div'));
-        // }
-    }
+    citys.forEach((c) => { c.addButton() });
 };
 
 City.prototype.addButton = function() {
