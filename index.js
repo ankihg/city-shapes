@@ -42,41 +42,40 @@ function addPlayDiv() {
     } else {
         playDiv.innerHTML = "&nbsp; E X P L O R E &nbsp;";
     }
-    playDiv.onmousedown = switchPlayExplore;
+    playDiv.onmousedown = togglePlayExplore;
 
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(playDiv);
 };
 
-function switchPlayExplore() {
-    if (Quiz.isPlay == false) {
-        Quiz.isPlay = true;
+function togglePlayExplore() {
+    Quiz.isPlay = !Quiz.isPlay;
+    if (Quiz.isPlay == true) {
         Quiz.startQuiz();
-        playDiv.innerHTML = "&nbsp; e x p l o r e &nbsp;";
+        playDiv.innerHTML = "&nbsp; E X P L O R E &nbsp;";
+        showScoreDiv();
     } else {
-        Quiz.isPlay = false;
         playDiv.innerHTML = "&nbsp; P L A Y &nbsp;";
+        hideScoreDiv();
     };
 };
 
-function addScoreDiv() {
+function showScoreDiv() {
     scoreDiv = document.getElementById('scoreDiv');
-    scoreDiv.innerHTML = '0 / 0';
-};
+    scoreDiv.style.display = "block";
+    updateScoreDiv();
+}
+
+function hideScoreDiv() {
+    scoreDiv = document.getElementById('scoreDiv');
+    scoreDiv.style.display = "none";
+}
 
 function updateScoreDiv() {
-    if (Quiz.isPlay) {
-        scoreDiv = document.getElementById('scoreDiv');
-        if (scoreDiv == null) {
-            addScoreDiv();
-        }
-        scoreDiv.innerHTML = Quiz.nCorrect.toString().concat(' / ', Quiz.nQuestions.toString());
-    }
-};
+    scoreDiv.innerHTML = Quiz.nCorrect + ' / ' + Quiz.nQuestions;
+}
 
 //Quiz class
-var Quiz = function() {
-
-};
+var Quiz = function() {}
 
 Quiz.city = "plz";
 Quiz.citysToQuiz = [];
@@ -89,7 +88,6 @@ Quiz.startQuiz = function() {
     Quiz.citysToQuiz = City.citys;
     Quiz.nCorrect = 0;
     Quiz.nQuestions = 0;
-    addScoreDiv();
     Quiz.quiz();
 };
 
