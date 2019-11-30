@@ -1,13 +1,11 @@
-google.maps.event.addDomListener(window, 'load', init);
-
 var map;
 var buttonDiv;
 var markers = [];
+google.maps.event.addDomListener(window, 'load', init);
 
 function init() {
     City.initCitys();
-    Quiz.start();
-    Quiz.quiz();
+    City.citys[0].setCity(); // will init map
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(scoreDiv);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
 }
