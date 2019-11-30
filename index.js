@@ -22,7 +22,7 @@ function addButtonDiv() {
         buttonDiv = document.createElement('div');
         buttonDiv.id = 'buttonDiv';
     }
-    buttonDiv.style.backgroundColor = '#00ff0090';
+    buttonDiv.style.overflowY = 'scroll';
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
 };
 
@@ -235,12 +235,12 @@ City.addButtons = function() {
     addButtonDiv();
     for (var i=0; i < City.citys.length; i++) {
         City.citys[i].addButton();
-        var nbsp = document.createElement('span');
-        nbsp.innerHTML = "&nbsp;";
-        buttonDiv.appendChild(nbsp);
-        if (i%3 == 2) {
-            buttonDiv.appendChild(document.createElement('div'));
-        }
+        // var nbsp = document.createElement('span');
+        // nbsp.innerHTML = "&nbsp;";
+        // buttonDiv.appendChild(nbsp);
+        // if (i%3 == 2) {
+        //     buttonDiv.appendChild(document.createElement('div'));
+        // }
     }
 };
 
@@ -253,8 +253,8 @@ City.prototype.addButton = function() {
     this.button.style.fontSize = "210%";
     this.button.style.cursor = "pointer";
 
-    this.button.style.margin = "1%";
-    this.button.style.display = "inline-block";
+    this.button.style.margin = "5%";
+    this.button.style.display = "block";
     this.button.style.width = "30%";
 
 
