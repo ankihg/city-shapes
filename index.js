@@ -5,9 +5,22 @@ google.maps.event.addDomListener(window, 'load', init);
 
 function init() {
     City.initCitys();
-    City.citys[0].setCity(); // will init map
+    map = initMap(City.citys[0]);
+    // City.citys[0].setCity(); // will init map
+    City.addButtons();
+    addPlayDiv();
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(scoreDiv);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonDiv);
+}
+
+function initMap(city) {
+    var mapProp = {
+        center: new google.maps.LatLng(city.lat, city.lng),
+        zoom:city.zoom,
+        disableDefaultUI:true,
+        mapTypeId:google.maps.MapTypeId.SATELLITE
+    };
+    return new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
 
 function addButtonDiv() {
@@ -248,20 +261,8 @@ City.prototype.addButton = function() {
 };
 
 City.prototype.setCity = function() {
-    if (map==null) {
-        var mapProp = {
-            center:new google.maps.LatLng(this.lat, this.lng),
-            zoom:this.zoom,
-            disableDefaultUI:true,
-            mapTypeId:google.maps.MapTypeId.SATELLITE
-        };
-        map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        City.addButtons();
-        addPlayDiv();
-    } else {
-        map.setCenter(new google.maps.LatLng(this.lat, this.lng));
-        map.setZoom(this.zoom);
-    }
+    map.setCenter(new google.maps.LatLng(this.lat, this.lng));
+    map.setZoom(this.zoom);
 };
 
 City.prototype.go = function() {
@@ -295,12 +296,13 @@ Clue.prototype.display = function() {
     this.marker.setMap(map);
     markers.push(this.marker);
 
-
     this.infoWindow = new google.maps.InfoWindow({
         content:this.txt
     });
 
-    map.setCenter(new google.maps.LatLng(Quiz.city.lat,Quiz.city.lng));
+    if (Quiz.isPlay) {
+        map.setCenter(new google.maps.LatLng(Quiz.city.lat,Quiz.city.lng));
+    }
 };
 
 Clue.prototype.addInfoWindow = function() {
