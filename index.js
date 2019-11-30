@@ -247,16 +247,8 @@ City.addButtons = function() {
 City.prototype.addButton = function() {
     this.button = document.createElement('a');
     this.button.id = this.name.concat("_button");
+    this.button.className = "city-button";
     this.button.innerHTML = this.name;
-
-    this.button.style.color = "white";
-    this.button.style.fontSize = "210%";
-    this.button.style.cursor = "pointer";
-
-    this.button.style.margin = "5%";
-    this.button.style.display = "block";
-    this.button.style.width = "30%";
-
 
     var city = this;
     this.button.onclick = function() { Quiz.reply(city); };
